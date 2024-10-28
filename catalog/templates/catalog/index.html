@@ -38,33 +38,22 @@
                 <h1 class="mt-4 mb-4 text-center">Главная</h1>
                 <!-- Карточки товаров -->
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 1</h5>
-                                <p class="card-text">Описание товара 1</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
+                    {% for product in latest_products %}
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">Описание: {{ product.description }}</p>
+                                    <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
+                                    <a href="#" class="btn btn-primary">Подробнее</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 2</h5>
-                                <p class="card-text">Описание товара 2</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center">Нет доступных продуктов.</div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 3</h5>
-                                <p class="card-text">Описание товара 3</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div> <!-- Закрытие row для карточек товаров -->
             </div> <!-- Закрытие колонки основного контента -->
         </div> <!-- Закрытие row -->

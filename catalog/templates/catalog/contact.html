@@ -43,9 +43,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h2>Контактная информация</h2>
-                        <p>Адрес: ул. Ленина, д. 1, г. Москва</p>
-                        <p>Телефон: +7 (777) 123-45-67</p>
-                        <p>Email: example@mail.ru</p>
+                        {% if contact_info %}
+                            <p><strong>Адрес:</strong> {{ contact_info.address }}</p>
+                            <p><strong>Телефон:</strong> {{ contact_info.phone }}</p>
+                            <p><strong>Email:</strong> {{ contact_info.email }}</p>
+                        {% else %}
+                            <p>Контактная информация не найдена.</p>
+                        {% endif %}
                     </div>
                     <div class="col-md-6">
                         <div class="feedback-form">
