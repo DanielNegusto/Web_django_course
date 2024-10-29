@@ -1,42 +1,73 @@
+/* Основные стили для бокового меню и контента */
 .sidebar {
     height: 100vh;
     background-color: #000;
     color: #fff;
     padding: 20px;
+    position: fixed; /* Фиксируем меню */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Чтобы меню было поверх контента */
+    transition: transform 0.3s ease; /* Плавный переход */
 }
+
 .sidebar a {
     color: #fff;
 }
+
 .main-content {
     background-color: #fff;
     padding: 20px;
 }
+
 .menu-title {
     border-bottom: 1px solid #ccc; /* Серая линия под заголовком */
     padding-bottom: 10px;
     margin-bottom: 15px;
 }
+
 .dropdown-menu {
     background-color: #000; /* Черный фон для выпадающего меню */
 }
+
 .dropdown-item {
     color: #fff; /* Белый цвет текста для пунктов меню */
 }
+
 .dropdown-item:hover {
     background-color: #333; /* Темный фон при наведении */
 }
+
 .card {
     width: 100%; /* Установим ширину карточки на 100% */
     max-width: 350px; /* Максимальная ширина карточки */
     margin: auto; /* Центрируем карточки */
 }
+
 .card-img-top {
     height: 100px; /* Устанавливаем высоту изображения */
     object-fit: cover; /* Обеспечиваем обрезку изображения по размеру */
 }
+
 .feedback-form {
     background-color: #f8f9fa; /* Цвет фона формы */
     padding: 20px; /* Внутренние отступы */
     border-radius: 15px; /* Круглые углы */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+}
+
+/* Стили для адаптивного бокового меню */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none; /* Скрываем меню по умолчанию на мобильных устройствах */
+    }
+    
+    .sidebar.active {
+        display: block; /* Показываем меню, когда оно активно */
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0; /* Убираем отступ для основного контента на мобильных устройствах */
+    }
 }

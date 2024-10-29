@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import ContactForm
-from .models import Product, Contact
+from .models import Product, Contact, Feedback
 
 
 def index(request):
@@ -13,7 +13,8 @@ def index(request):
 
 
 def catalog(request):
-    return render(request, 'catalog/catalog.html')
+    products = Product.objects.all()  # Извлекаем все продукты
+    return render(request, 'catalog/catalog.html', {'products': products})
 
 
 def about(request):
@@ -22,20 +23,28 @@ def about(request):
 
 def contact_view(request):
     success_message = ""
-    contact_info = Contact.objects.first()
+    # Получите первую запись контактов из базы данных
+    contact_info = Contact.objects.first()  # Замените на нужный запрос, если у вас несколько записей
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data.get('name')
-            success_message = f"Привет, {name}! Ваше сообщение было успешно отправлено!"
-            form = ContactForm()
+            # Сохраните данные обратной связи
+            feedback = Feedback(
+                name=form.cleaned_data.get('name'),
+                email=form.cleaned_data.get('email'),
+                message=form.cleaned_data.get('message')
+            )
+            feedback.save()  # Сохраните объект обратной связи
+
+            success_message = f"Привет, {feedback.name}! Ваше сообщение было успешно отправлено!"
+            form = ContactForm()  # Сброс формы после успешной отправки
     else:
         form = ContactForm()
 
     context = {
         'form': form,
         'success_message': success_message,
-        'contact_info': contact_info,
+        'contact_info': contact_info,  # Передайте информацию о контакте в контекст
     }
     return render(request, 'catalog/contact.html', context)

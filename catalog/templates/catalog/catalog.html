@@ -1,90 +1,28 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог</title>
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet"> <!-- Локальный Bootstrap CSS -->
-    <link href="/static/css/styles.css" rel="stylesheet"> <!-- Ваши собственные стили -->
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Левое меню -->
-            <div class="col-md-2 sidebar">
-                <h4 class="menu-title">Меню</h4>
-                <nav class="navbar navbar-light">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house"></i> Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/catalog"><i class="bi bi-box"></i> Каталог</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about"><i class="bi bi-info-circle"></i> О нас</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/contacts"><i class="bi bi-envelope"></i> Контакты</a></li>
-                    </ul>
-                </nav>
-                <div class="mt-auto">
-                    <div class="dropdown" style="position: absolute; bottom: 20px;">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person"></i> Пользователь </button>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Профиль</a></li>
-                            <li><a class="dropdown-item" href="#">Выйти</a></li>
-                        </ul>
-                    </div>
-                </div>
+{% extends "catalog/base.html" %}
+
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+<h1 class="mt-4 mb-4 text-center">Каталог</h1>
+<!-- Карточки товаров -->
+<div class="row row-cols-2 g-4 justify-content-center">
+    {% for product in products %}
+    <div class="col d-flex justify-content-center">
+        <div class="card">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Нет изображения">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
+                <a href="#" class="btn btn-primary">Подробнее</a>
             </div>
+        </div>
+    </div>
+    {% endfor %}
+</div> <!-- Закрытие row для карточек товаров -->
+{% endblock %}
 
-            <!-- Основной контент -->
-            <div class="col-md-10 main-content">
-                <h1 class="mt-4 mb-4 text-center">Каталог</h1>
-                <!-- Карточки товаров -->
-               <div class="row row-cols-2 g-4 justify-content-center">
-                    <div class="col d-flex justify-content-center">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Товар 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 1</h5>
-                                <p class="card-text">Описание товара 1</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Товар 2">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 2</h5>
-                                <p class="card-text">Описание товара 2</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Товар 3">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 3</h5>
-                                <p class="card-text">Описание товара 3</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Товар 4">
-                            <div class="card-body">
-                                <h5 class="card-title">Товар 4</h5>
-                                <p class="card-text">Описание товара 4</p>
-                                <a href="#" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- Закрытие row для карточек товаров -->
-            </div> <!-- Закрытие колонки основного контента -->
-        </div> <!-- Закрытие row -->
-    </div> <!-- Закрытие container-fluid -->
-
-    <script src="/static/js/bootstrap.bundle.min.js"></script> <!-- Локальный Bootstrap JS -->
-    <script src="/static/js/scripts.js"></script> <!-- Ваши собственные скрипты -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-</body>
-</html>

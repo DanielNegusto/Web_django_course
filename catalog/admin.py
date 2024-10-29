@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Category, Product, Contact
+from .models import Category, Product, Contact, Feedback
+
+
 # Register your models here.
 
 
@@ -19,3 +21,11 @@ class ProductAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('address', 'email', 'phone')  # Отображаем ID, имя, email, телефон и сообщение
     search_fields = ('email', )  # Поиск по email
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'created_at')
+    search_fields = ('name', 'email')
+    list_filter = ('created_at',)
+    ordering = ('-created_at',)
