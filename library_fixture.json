@@ -1,0 +1,120 @@
+[
+    {
+        "model": "catalog.category",
+        "pk": 1,
+        "fields": {
+            "name": "Электроника",
+            "description": ""
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 2,
+        "fields": {
+            "name": "Одежда",
+            "description": ""
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 3,
+        "fields": {
+            "name": "Книги",
+            "description": ""
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 4,
+        "fields": {
+            "name": "Дом и сад",
+            "description": ""
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 5,
+        "fields": {
+            "name": "Спорт",
+            "description": ""
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 1,
+        "fields": {
+            "name": "Смартфон",
+            "description": "Современный смартфон с отличной камерой.",
+            "image": "smartphone.jpg",
+            "category": 1,
+            "price": "32000.00",
+            "created_at": "2024-10-28T11:06:10.191Z",
+            "updated_at": "2024-10-28T11:09:59.394Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 2,
+        "fields": {
+            "name": "Ноутбук",
+            "description": "Мощный ноутбук для работы и игр.",
+            "image": "laptop.jpg",
+            "category": 1,
+            "price": "60000.00",
+            "created_at": "2024-10-28T11:06:10.208Z",
+            "updated_at": "2024-10-28T11:06:10.208Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 3,
+        "fields": {
+            "name": "Футболка",
+            "description": "Удобная футболка из 100% хлопка.",
+            "image": "tshirt.jpg",
+            "category": 2,
+            "price": "1500.00",
+            "created_at": "2024-10-28T11:06:10.210Z",
+            "updated_at": "2024-10-28T11:06:10.210Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 4,
+        "fields": {
+            "name": "Роман",
+            "description": "Интересный роман о приключениях.",
+            "image": "novel.jpg",
+            "category": 3,
+            "price": "500.00",
+            "created_at": "2024-10-28T11:06:10.211Z",
+            "updated_at": "2024-10-28T11:06:10.211Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 5,
+        "fields": {
+            "name": "Садовый стул",
+            "description": "Удобный стул для отдыха на улице.",
+            "image": "garden_chair.jpg",
+            "category": 4,
+            "price": "2500.00",
+            "created_at": "2024-10-28T11:06:10.212Z",
+            "updated_at": "2024-10-28T11:06:10.212Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 6,
+        "fields": {
+            "name": "Футбольный мяч",
+            "description": "Качественный мяч для игры в футбол.",
+            "image": "football.jpg",
+            "category": 5,
+            "price": "2000.00",
+            "created_at": "2024-10-28T11:06:10.213Z",
+            "updated_at": "2024-10-28T11:06:10.213Z"
+        }
+    }
+]
