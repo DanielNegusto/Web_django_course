@@ -18,7 +18,7 @@
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description }}</p>
                 <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
-                <a href="#" class="btn btn-primary">Подробнее</a>
+                <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
     </div>

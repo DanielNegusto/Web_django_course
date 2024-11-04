@@ -11,9 +11,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">Описание: {{ product.description }}</p>
+                    <p class="card-text">Описание: {{ product.description|slice:":100" }}{% if product.description|length > 100 %}...{% endif %}</p>
                     <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
-                    <a href="#" class="btn btn-primary">Подробнее</a>
+                    <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
                 </div>
             </div>
         </div>
