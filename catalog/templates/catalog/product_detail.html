@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load static %}
+{% load product_tags %}
 
 {% block title %}
     {{ product.name }}
@@ -11,11 +11,7 @@
 
     <div class="row mt-4">
         <div class="col-md-6 text-center">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded" style="max-width: 100%;">
-            {% else %}
-                <img src="{% static 'images/default_image.png' %}" alt="Изображение по умолчанию" class="img-fluid rounded" width="200" height="200">
-            {% endif %}
+            {{ product | product_image | safe }}
         </div>
         <div class="col-md-6">
             <p class="lead"><strong>Описание:</strong> {{ product.description }}</p>
