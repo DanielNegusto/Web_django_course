@@ -14,28 +14,8 @@
             <!-- Кнопка для открытия меню на мобильных устройствах -->
             <button class="btn btn-primary d-md-none" id="menuToggle">Меню</button>
 
-            <!-- Левое меню -->
-            <div class="col-md-2 sidebar" id="sidebar">
-                <h4 class="menu-title">Меню</h4>
-                <nav class="navbar navbar-light">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:index' %}"><i class="bi bi-house"></i> Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:catalog' %}"><i class="bi bi-box"></i> Каталог</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:about' %}"><i class="bi bi-info-circle"></i> О нас</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:contacts' %}"><i class="bi bi-envelope"></i> Контакты</a></li>
-                    </ul>
-                </nav>
-                <div class="mt-auto">
-                    <div class="dropdown" style="position: absolute; bottom: 20px;">
-                        <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person"></i> Пользователь </button>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Профиль</a></li>
-                            <li><a class="dropdown-item" href="#">Выйти</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <!-- Включаем подшаблон меню -->
+            {% include 'catalog/menu.html' %}
 
             <!-- Основной контент -->
             <div class="col-md-10 offset-md-2 p-3 main-content">
@@ -53,10 +33,4 @@
     document.getElementById('menuToggle').addEventListener('click', function() {
         var sidebar = document.getElementById('sidebar');
         sidebar.classList.toggle('active'); // Для отображения на мобильных
-        sidebar.classList.toggle('hidden'); // Для скрытия за пределами экрана
-        var mainContent = document.querySelector('.main-content');
-        mainContent.classList.toggle('shifted'); // Переключаем класс для основного контента
-    });
-    </script>
-</body>
-</html>
+        sidebar.classList.toggle('hidden'); // Для скрытия

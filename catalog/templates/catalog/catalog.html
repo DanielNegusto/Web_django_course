@@ -1,4 +1,5 @@
 {% extends "catalog/base.html" %}
+{% load static %}
 
 {% block title %}Каталог{% endblock %}
 
@@ -10,19 +11,18 @@
     <div class="col d-flex justify-content-center">
         <div class="card">
             {% if product.image %}
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" class="card-img-top product-image" alt="{{ product.name }}">
             {% else %}
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Нет изображения">
+                <img src="{% static 'images/default_image.png' %}" class="card-img-top product-image" alt="Нет изображения">
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description }}</p>
                 <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
-                <a href="#" class="btn btn-primary">Подробнее</a>
+                <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div> <!-- Закрытие row для карточек товаров -->
 {% endblock %}
-
