@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Список постов{% endblock %}
+
+{% block content %}
+<h1>Список постов</h1>
+<a href="{% url 'post_create' %}" class="btn btn-success">Создать новый пост</a>
+<ul class="list-group mt-3">
+    {% for post in posts %}
+        <li class="list-group-item">
+            <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a> 
+            - <a href="{% url 'post_edit' post.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+            - <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+        </li>
+    {% empty %}
+        <li>Нет опубликованных статей.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
