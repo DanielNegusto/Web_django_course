@@ -5,7 +5,8 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'catalog:index' %}"><i class="bi bi-house"></i> Главная</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'catalog:catalog' %}"><i class="bi bi-box"></i> Каталог</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'catalog:about' %}"><i class="bi bi-info-circle"></i> О нас</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'catalog:contacts' %}"><i class="bi bi-envelope"></i> Контакты</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'catalog:contact' %}"><i class="bi bi-envelope"></i> Контакты</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'post_list' %}"><i class="bi bi-pencil"></i> Блог</a></li>
             <li class="nav-item"><a class="nav-link btn btn-success" href="{% url 'catalog:add_product' %}"><i class="bi bi-plus-circle"></i> Добавить продукт</a></li>
         </ul>
     </nav>
