@@ -3,43 +3,42 @@
 {% block title %}Добавить товар{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Добавить новый товар</h1>
-    <form method="POST" enctype="multipart/form-data" class="border p-4 rounded shadow">
-        {% csrf_token %}
-
-        <div class="mb-3">
-            <label for="id_name" class="form-label">Название товара</label>
-            <input type="text" name="name" class="form-control" id="id_name" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_description" class="form-label">Описание товара</label>
-            <textarea name="description" class="form-control" id="id_description" required></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_price" class="form-label">Цена</label>
-            <input type="number" name="price" class="form-control" id="id_price" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_image" class="form-label">Изображение товара</label>
-            <input type="file" name="image" class="form-control" id="id_image" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="id_category" class="form-label">Категория</label>
-            <select name="category" class="form-select" id="id_category" required>
-                <option value="">Выберите категорию</option>
-                {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Добавить товар</button>
-        <a href="{% url 'catalog:catalog' %}" class="btn btn-secondary">Назад к списку товаров</a>
-    </form>
-</div>
+<h1>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} продукт</h1>
+<form method="post" enctype="multipart/form-data">  <!-- Добавлено enctype -->
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name }}
+        {% for error in form.name.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.description.label }}
+        {{ form.description }}
+        {% for error in form.description.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.price.label }}
+        {{ form.price }}
+        {% for error in form.price.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.category.label }}
+        {{ form.category }}
+    </div>
+    <div class="form-group">
+        {{ form.image.label }}
+        {{ form.image }}
+        {% for error in form.image.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+<a href="{% url 'catalog:catalog' %}" class="btn btn-secondary">Назад</a>
 {% endblock %}

@@ -71,3 +71,31 @@
         margin-left: 0; /* Убираем отступ для основного контента на мобильных устройствах */
     }
 }
+
+.list-group-item {
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa; /* Цвет фона при наведении */
+}
+
+.btn {
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05); /* Увеличение кнопок при наведении */
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.text-danger {
+    font-size: 0.875rem; /* Уменьшенный размер шрифта для ошибок */
+}
