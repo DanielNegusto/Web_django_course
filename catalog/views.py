@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import  render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from .forms import ContactForm, ProductForm
 from .models import Product, Contact, Feedback, Category
 
@@ -71,16 +72,30 @@ class ProductDetailView(DetailView):
     pk_url_kwarg = 'product_id'
 
 
+class UpdateProductView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/add_product.html'
+    pk_url_kwarg = 'product_id'
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_detail', kwargs={'product_id': self.object.id})
+
+
 class AddProductView(CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/add_product.html'
+    success_url = reverse_lazy('catalog:catalog')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
 
-    def form_valid(self, form):
-        product = form.save()
-        return redirect('catalog:product_detail', product_id=product.id)
+
+class DeleteProductView(DeleteView):
+    model = Product
+    template_name = 'catalog/delete_product.html'
+    pk_url_kwarg = 'product_id'
+    success_url = reverse_lazy('catalog:catalog')

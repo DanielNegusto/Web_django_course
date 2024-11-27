@@ -7,20 +7,20 @@ from .models import Category, Product, Contact, Feedback
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')  # Отображаем ID и название категории
+    list_display = ('id', 'name')
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'category')  # Отображаем ID, название, цену и категорию продукта
-    list_filter = ('category',)  # Фильтрация по категории
-    search_fields = ('name', 'description')  # Поиск по имени и описанию
+    list_display = ('id', 'name', 'price', 'category')
+    list_filter = ('category',)
+    search_fields = ('name', 'description')
 
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('address', 'email', 'phone')  # Отображаем ID, имя, email, телефон и сообщение
-    search_fields = ('email', )  # Поиск по email
+    list_display = ('address', 'email', 'phone')
+    search_fields = ('email', )
 
 
 @admin.register(Feedback)

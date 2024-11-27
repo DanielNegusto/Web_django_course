@@ -3,14 +3,25 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-{% if post.preview_image %}
-    <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="img-fluid">
-{% endif %}
-<p>Дата создания: {{ post.created_at }}</p>
-<p>Опубликован: {{ post.is_published }}</p>
-<p>Количество просмотров: {{ post.views_count }}</p>
-<a href="{% url 'post_edit' post.pk %}" class="btn btn-warning">Редактировать</a>
-<a href="{% url 'post_list' %}" class="btn btn-secondary">Назад к списку</a>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">{{ post.title }}</h1>
+        </div>
+        <div class="card-body">
+            {% if post.preview_image %}
+                <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="img-fluid mb-3">
+            {% endif %}
+            <p class="card-text">{{ post.content }}</p>
+            <p class="card-text"><strong>Дата создания:</strong> {{ post.created_at }}</p>
+            <p class="card-text"><strong>Опубликован:</strong> {{ post.is_published|yesno:"Да,Нет" }}</p>
+            <p class="card-text"><strong>Количество просмотров:</strong> {{ post.views_count }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'post_edit' post.pk %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'post_list' %}" class="btn btn-secondary">Назад к списку</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
+

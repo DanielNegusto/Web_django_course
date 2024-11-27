@@ -1,13 +1,46 @@
 {% extends 'catalog/base.html' %}
+{% load custom_filters %}
+
 
 {% block title %}{% if object %}Редактировать пост{% else %}Создать пост{% endif %}{% endblock %}
 
 {% block content %}
-<h1>{% if object %}Редактировать{% else %}Создать{% endif %} пост</h1>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
-<a href="{% url 'post_list' %}" class="btn btn-secondary">Назад к списку</a>
+<div class="container mt-4">
+    <h1 class="mb-4">{% if object %}Редактировать{% else %}Создать{% endif %} пост</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Заголовок</label>
+            {{ form.title|add_class:"form-control" }}
+            {% if form.title.errors %}
+                <div class="text-danger">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_content" class="form-label">Содержимое</label>
+            {{ form.content|add_class:"form-control" }}
+            {% if form.content.errors %}
+                <div class="text-danger">{{ form.content.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_preview_image" class="form-label">Изображение превью</label>
+            {{ form.preview_image|add_class:"form-control" }}
+            {% if form.preview_image.errors %}
+                <div class="text-danger">{{ form.preview_image.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3 form-check">
+            {{ form.is_published|add_class:"form-check-input" }}
+            <label for="id_is_published" class="form-check-label">Опубликован</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    <a href="{% url 'post_list' %}" class="btn btn-secondary mt-3">Назад к списку</a>
+</div>
 {% endblock %}
