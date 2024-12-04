@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 
@@ -28,6 +30,13 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name']
+
+    def delete(self, *args, **kwargs):
+        # Удаляем файл изображения, если он существует
+        if self.image:
+            if os.path.isfile(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name

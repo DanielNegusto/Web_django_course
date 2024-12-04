@@ -1,7 +1,8 @@
-from django.shortcuts import  render
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ContactForm, ProductForm
 from .models import Product, Contact, Feedback, Category
 
@@ -72,7 +73,7 @@ class ProductDetailView(DetailView):
     pk_url_kwarg = 'product_id'
 
 
-class UpdateProductView(UpdateView):
+class UpdateProductView(LoginRequiredMixin, UpdateView):  # Добавляем LoginRequiredMixin
     model = Product
     form_class = ProductForm
     template_name = 'catalog/add_product.html'
@@ -82,11 +83,14 @@ class UpdateProductView(UpdateView):
         return reverse_lazy('catalog:product_detail', kwargs={'product_id': self.object.id})
 
 
-class AddProductView(CreateView):
+class AddProductView(LoginRequiredMixin, CreateView):  # Добавляем LoginRequiredMixin
     model = Product
     form_class = ProductForm
     template_name = 'catalog/add_product.html'
     success_url = reverse_lazy('catalog:catalog')
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_detail', kwargs={'product_id': self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,7 +98,7 @@ class AddProductView(CreateView):
         return context
 
 
-class DeleteProductView(DeleteView):
+class DeleteProductView(LoginRequiredMixin, DeleteView):  # Добавляем LoginRequiredMixin
     model = Product
     template_name = 'catalog/delete_product.html'
     pk_url_kwarg = 'product_id'

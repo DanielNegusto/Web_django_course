@@ -12,12 +12,25 @@
     </nav>
     <div class="mt-auto">
         <div class="dropdown" style="position: absolute; bottom: 20px;">
-            <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person"></i> Пользователь </button>
-            <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="#">Профиль</a></li>
-                <li><a class="dropdown-item" href="#">Выйти</a></li>
-            </ul>
+            {% if user.is_authenticated %}
+                <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person"></i> {{ user.username }}
+                </button>
+                <form method="POST" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{% url 'users:profile_edit' %}">Редактировать профиль</a></li>
+                        <button type="submit" class="dropdown-item">Выйти</button>
+                    </ul>
+                </form>
+            {% else %}
+                <a class="btn" href="{% url 'users:login' %}">
+                    <i class="bi bi-box-arrow-in-right"></i> Войти
+                </a>
+                <a class="btn" href="{% url 'users:register' %}">
+                    <i class="bi bi-person-plus"></i> Регистрация
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>
