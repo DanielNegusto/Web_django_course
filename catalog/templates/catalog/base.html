@@ -19,6 +19,19 @@
 
             <!-- Основной контент -->
             <div class="col-md-10 offset-md-2 p-3 main-content">
+
+                <!-- Вывод сообщений -->
+                {% if messages %}
+                    <div class="container mt-3">
+                        {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 {% block content %}
                 <!-- Здесь будет основной контент страниц -->
                 {% endblock %}
@@ -34,5 +47,6 @@
             var sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('active'); // Для отображения на мобильных
             sidebar.classList.toggle('hidden');
-            });// Для скрытия
+            });
     </script>
+</body>
