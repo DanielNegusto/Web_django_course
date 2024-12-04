@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from .models import Post
@@ -25,25 +25,28 @@ class PostDetailView(DetailView):
         return post
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'blog/post_form.html'
     fields = ['title', 'content', 'is_published', 'preview_image']
+    permission_required = 'blog.add_post'  # Разрешение на создание публикации
 
     def get_success_url(self):
         return reverse('post_detail', kwargs={'pk': self.object.pk})
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Post
     template_name = 'blog/post_form.html'
     fields = ['title', 'content', 'is_published', 'preview_image']
+    permission_required = 'blog.change_post'  # Разрешение на изменение публикации
 
     def get_success_url(self):
         return reverse('post_detail', kwargs={'pk': self.object.pk})
 
 
-class PostDeleteView(LoginRequiredMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
     success_url = reverse_lazy('post_list')
+    permission_required = 'blog.delete_post'

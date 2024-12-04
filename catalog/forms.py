@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Product
+from .models import Product, Category
 
 
 class ContactForm(forms.Form):
@@ -22,9 +22,11 @@ FORBIDDEN_WORDS_DESCRIPTION = [
 
 
 class ProductForm(forms.ModelForm):
+    new_category = forms.CharField(max_length=255, required=False, label="Новая категория")
+
     class Meta:
         model = Product
-        fields = ['name', 'description', 'category', 'price', 'image']
+        fields = ['name', 'description', 'category', 'price', 'image', 'status']
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -43,6 +45,26 @@ class ProductForm(forms.ModelForm):
         self.fields['image'].widget.attrs.update({
             'class': 'form-control'
         })
+        self.fields['category'] = forms.ModelChoiceField(
+            queryset=Category.objects.all(),
+            required=False,  # Сделаем выбор категории необязательным
+            label="Выберите категорию",
+            empty_label="Выберите категорию или создайте новую"
+        )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_category = cleaned_data.get('new_category')
+        category = cleaned_data.get('category')
+
+        if new_category:
+            # Если введена новая категория, создаем или находим её
+            category, created = Category.objects.get_or_create(name=new_category)
+            cleaned_data['category'] = category
+        elif not category and not new_category:
+            raise forms.ValidationError("Выберите категорию или создайте новую.")
+
+        return cleaned_data
 
     def clean_name(self):
         name = self.cleaned_data.get('name', '').lower()
