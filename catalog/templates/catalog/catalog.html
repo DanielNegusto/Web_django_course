@@ -5,6 +5,16 @@
 
 {% block content %}
 <h1 class="mt-4 mb-4 text-center">Каталог</h1>
+
+<!-- Кнопки для сортировки по категориям -->
+<div class="text-center mb-4">
+    <h5>Сортировать по категории:</h5>
+    <a href="?category_id=" class="btn btn-secondary mx-1 {% if selected_category_id == None %}active{% endif %}">Все категории</a>
+    {% for category in categories %}
+        <a href="?category_id={{ category.id }}" class="btn btn-secondary mx-1 {% if selected_category_id == category.id %}active{% endif %}">{{ category.name }}</a>
+    {% endfor %}
+</div>
+
 <!-- Карточки товаров -->
 <div class="row row-cols-2 g-4 justify-content-center">
     {% for product in products %}

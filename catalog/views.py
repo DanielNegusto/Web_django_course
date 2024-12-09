@@ -1,13 +1,14 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import Http404
-from django.shortcuts import render, get_object_or_404, redirect
+from django.core.cache import cache
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ContactForm, ProductForm
 from .models import Product, Contact, Feedback, Category
+from .services import get_products_by_category
 
 
 class IndexView(ListView):
@@ -27,7 +28,26 @@ class CatalogView(ListView):
     model = Product
     template_name = 'catalog/catalog.html'
     context_object_name = 'products'
-    paginate_by = 10  # Добавлен пагинатор
+
+    def get_queryset(self):
+        category_id = self.request.GET.get('category_id')
+        cache_key = f'products_category_{category_id}' if category_id else 'all_products'
+
+        products = cache.get(cache_key)
+
+        if products is None:
+            if category_id:
+                products = get_products_by_category(category_id)
+            else:
+                products = super().get_queryset()
+            cache.set(cache_key, products, 10)
+        return products
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  # Получаем все категории
+        context['selected_category_id'] = self.request.GET.get('category_id')  # Передаем id выбранной категории
+        return context
 
 
 class AboutView(TemplateView):
@@ -73,20 +93,31 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'product'
     pk_url_kwarg = 'product_id'
 
-    def get_object(self):
-        return get_object_or_404(Product, pk=self.kwargs.get(self.pk_url_kwarg))
+    def get_object(self, **kwargs):
+        cache_key = f'product_{self.kwargs.get(self.pk_url_kwarg)}'
+        product = cache.get(cache_key)
+
+        if not product:
+            product = super().get_object()
+            cache.set(cache_key, product, timeout=300)  # Кэшируем на 5 минут (300 секунд)
+
+        return product
 
     def post(self, request, *args, **kwargs):
-        product = super().get_object()
+        product = self.get_object()  # Получаем объект продукта, используя кэшированную версию
+
         # Проверяем, имеет ли пользователь право "can_unpublish_product"
         if not (request.user.has_perm('catalog.can_unpublish_product') or self.request.user == product.owner):
             messages.error(request, "У вас нет прав для выполнения этого действия.")
             return redirect('catalog:product_detail', product_id=self.kwargs.get(self.pk_url_kwarg))
 
-        product = self.get_object()
         product.status = 'draft'  # Устанавливаем статус как "Черновик"
         product.save()
         messages.success(request, f"Продукт {product.name} был успешно снят с публикации.")
+
+        # Очистить кэш после изменения продукта
+        cache.delete(f'product_{product.id}')
+
         return redirect('catalog:product_detail', product_id=product.id)
 
 
