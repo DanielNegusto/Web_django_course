@@ -18,8 +18,22 @@
             <p><strong>Цена:</strong> {{ product.price }} руб.</p>
             <p><strong>Категория:</strong> {{ product.category.name }}</p>
             <p><strong>Дата добавления:</strong> {{ product.created_at|date:"d, F Y" }}</p>
+            <p><strong>Статус публикации:</strong> {{ product.get_status_display }}</p>
+            <p><strong>Создатель:</strong> {{ product.owner }}</p>
 
             <a href="{% url 'catalog:catalog' %}" class="btn btn-primary mt-3">Назад к каталогу</a>
+
+            {% if request.user == product.owner %}
+            <div class="mt-4">
+                <a href="{% url 'catalog:update_product' product.id %}" class="btn btn-warning">Редактировать</a>
+            {% endif %}
+            {% if perms.catalog.can_unpublish_product or request.user == product.owner %}
+                <a href="{% url 'catalog:delete_product' product.id %}" class="btn btn-danger">Удалить</a>
+                <form action="{% url 'catalog:product_detail' product.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">Снять с публикации</button>
+                </form>
+            {% endif %}
         </div>
     </div>
 </div>

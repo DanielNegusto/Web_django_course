@@ -6,6 +6,7 @@
 <h1>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} продукт</h1>
 <form method="post" enctype="multipart/form-data">  <!-- Добавлено enctype -->
     {% csrf_token %}
+
     <div class="form-group">
         {{ form.name.label }}
         {{ form.name }}
@@ -13,6 +14,7 @@
             <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
     </div>
+
     <div class="form-group">
         {{ form.description.label }}
         {{ form.description }}
@@ -20,6 +22,7 @@
             <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
     </div>
+
     <div class="form-group">
         {{ form.price.label }}
         {{ form.price }}
@@ -27,10 +30,24 @@
             <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
     </div>
+
     <div class="form-group">
         {{ form.category.label }}
         {{ form.category }}
+        {% for error in form.category.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
     </div>
+
+    <!-- Поле для новой категории -->
+    <div class="form-group">
+        {{ form.new_category.label }}
+        {{ form.new_category }}
+        {% for error in form.new_category.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
     <div class="form-group">
         {{ form.image.label }}
         {{ form.image }}
@@ -38,7 +55,18 @@
             <div class="alert alert-danger">{{ error }}</div>
         {% endfor %}
     </div>
+
+    <div class="form-group">
+        {{ form.status.label }}
+        {{ form.status }}
+        {% for error in form.status.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
     <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
+
 <a href="{% url 'catalog:catalog' %}" class="btn btn-secondary">Назад</a>
+
 {% endblock %}

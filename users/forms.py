@@ -51,9 +51,18 @@ class UserRegistrationForm(forms.ModelForm):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password_confirm = cleaned_data.get("password_confirm")
+
         if password and password_confirm and password != password_confirm:
             raise forms.ValidationError("Пароли не совпадают.")
+
         return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])  # Хешируем пароль
+        if commit:
+            user.save()
+        return user
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -73,4 +82,3 @@ class ProfileUpdateForm(forms.ModelForm):
         if email and get_user_model().objects.filter(email=email).exclude(id=self.instance.id).exists():
             raise forms.ValidationError("Этот email уже используется.")
         return email
-

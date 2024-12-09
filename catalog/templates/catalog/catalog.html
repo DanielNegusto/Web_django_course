@@ -20,8 +20,6 @@
                 <p class="card-text">{{ product.description }}</p>
                 <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
                 <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
-                <a href="{% url 'catalog:update_product' product.id %}" class="btn btn-warning">Редактировать</a>
-                <a href="{% url 'catalog:delete_product' product.id %}" class="btn btn-danger">Удалить</a>
             </div>
         </div>
     </div>
